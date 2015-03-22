@@ -1,13 +1,12 @@
 package com.dragon.smile.fragment;
 
 import android.app.Activity;
-import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.dragon.smile.fragment.dummy.DummyContent;
+import com.dragon.smile.fragment.dummy.MainPageContent;
 
 /**
  * A fragment representing a list of Items.
@@ -56,8 +55,7 @@ public class MainPageFragment extends ListFragment {
         }
 
         // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+        setListAdapter(new MainPageAdapter(this.getActivity()));
     }
 
 
@@ -83,10 +81,17 @@ public class MainPageFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
+        switch (position) {
+            case MainPageContent.RAPID_BARBER:
+
+                break;
+        }
+
+
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            mListener.onFragmentInteraction(MainPageContent.ITEMS.get(position).id);
         }
     }
 

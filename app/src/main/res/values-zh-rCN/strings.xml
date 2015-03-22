@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">笑否</string>
+    <string name="app_name">理发行</string>
     <string name="title_home_page">首页</string>
     <string name="title_user_info">用户信息</string>
     <string name="title_settings">设置</string>
     <string name="title_about">关于</string>
+
+    <string name="title_rapid_barber">快速理发</string>
+    <string name="content_rapid_barber">抢红包免费理发</string>
 </resources>

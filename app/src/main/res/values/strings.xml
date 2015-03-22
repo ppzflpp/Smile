@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Smile</string>
 
-    <string name="title_home_page">Home Page</string>
+    <string name="title_home_page">Barber</string>
     <string name="title_user_info">UserInfo</string>
     <string name="title_about">About</string>
     <string name="title_settings">Settings</string>
@@ -10,5 +10,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+
+    <string name="title_rapid_barber">Rapid Barber</string>
+    <string name="content_rapid_barber">Rapid Barber</string>
 
 </resources>
