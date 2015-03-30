@@ -13,5 +13,10 @@
 
     <string name="title_rapid_barber">Rapid Barber</string>
     <string name="content_rapid_barber">Rapid Barber</string>
+    <string name="title_activity_poi_search">PoiSearchActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

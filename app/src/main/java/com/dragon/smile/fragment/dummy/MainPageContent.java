@@ -20,18 +20,21 @@ public class MainPageContent {
      */
     public static final int RAPID_BARBER = 0;
 
-    static {
-        // Add 3 sample items.
-        addItem(new MainPageItem(String.valueOf(RAPID_BARBER), R.mipmap.ic_launcher, R.string.title_rapid_barber, R.string.content_rapid_barber));
-    }
+
     /**
      * An array of sample (dummy) items.
      */
     public static List<MainPageItem> ITEMS = new ArrayList<MainPageItem>();
+
     /**
      * A map of sample (dummy) items, by ID.
      */
     public static Map<String, MainPageItem> ITEM_MAP = new HashMap<String, MainPageItem>();
+
+    static {
+        // Add 3 sample items.
+        addItem(new MainPageItem(String.valueOf(RAPID_BARBER), R.mipmap.ic_launcher, R.string.title_rapid_barber, R.string.content_rapid_barber));
+    }
 
     private static void addItem(MainPageItem item) {
         ITEMS.add(item);

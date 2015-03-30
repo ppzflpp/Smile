@@ -1,11 +1,13 @@
 package com.dragon.smile.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
+import com.dragon.smile.PoiSearchActivity;
 import com.dragon.smile.fragment.dummy.MainPageContent;
 
 /**
@@ -83,7 +85,7 @@ public class MainPageFragment extends ListFragment {
 
         switch (position) {
             case MainPageContent.RAPID_BARBER:
-
+                startActivity(new Intent(this.getActivity(), PoiSearchActivity.class));
                 break;
         }
 
