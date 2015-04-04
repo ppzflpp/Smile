@@ -8,5 +8,6 @@ public class BusinessData {
     public String id;
     public String name;
     public String address;
+    public String phone;
 
 }

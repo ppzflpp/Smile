@@ -1,7 +1,6 @@
 package com.dragon.smile.compact.baidu;
 
 import android.content.Context;
-import android.util.SparseArray;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
@@ -12,12 +11,13 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
+import com.dragon.smile.compact.PoiDataCallback;
 import com.dragon.smile.compact.PoiWrapper;
+import com.dragon.smile.data.BusinessData;
 import com.dragon.smile.data.SearchConstant;
-import com.dragon.smile.lbs.LocationListener;
-import com.dragon.smile.lbs.LocationService;
 import com.dragon.smile.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,15 +26,27 @@ import java.util.List;
 public class BaiduPoiWrapper implements PoiWrapper {
 
     private final static String TAG = "BaiDuPoiWrapper";
+    private LatLng mLocation = null;
+    private String mLocationString = null;
+    private PoiSearch mPoiSearch = null;
+    private SuggestionSearch mSuggestionSearch = null;
+    private List<PoiDataCallback> mPoiDataCallbackList = new ArrayList<PoiDataCallback>();
+    private List<BusinessData> mBusinessDataList = new ArrayList<>();
     private OnGetPoiSearchResultListener mOnGetPoiSearchResultListener = new OnGetPoiSearchResultListener() {
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
             List<PoiInfo> lists = poiResult.getAllPoi();
-            LogUtils.d(TAG, "lists = " + lists);
-            for (int i = 0; lists != null && i < lists.size(); i++) {
-                PoiInfo info = lists.get(i);
-                LogUtils.d(TAG, "" + info.toString());
+            for (PoiInfo info : lists) {
+                BusinessData data = new BusinessData();
+                data.id = info.uid;
+                data.name = info.name;
+                data.address = info.address;
+                data.phone = info.phoneNum;
+                mBusinessDataList.add(data);
             }
+
+            for (PoiDataCallback callback : mPoiDataCallbackList)
+                callback.onDataCallback(mBusinessDataList);
         }
 
         @Override
@@ -42,33 +54,46 @@ public class BaiduPoiWrapper implements PoiWrapper {
             LogUtils.d(TAG, "---2---" + poiDetailResult);
         }
     };
-    private LatLng mLocation = null;
-    private PoiSearch mPoiSearch = null;
-    private SuggestionSearch mSuggestionSearch = null;
 
     public BaiduPoiWrapper(final Context context) {
         SDKInitializer.initialize(context);
 
-        LocationService.getInstance(context).setLocationListener(new LocationListener() {
-            @Override
-            public void onGetLocation(Object object) {
-                if (object instanceof LatLng) {
-                    mLocation = (LatLng) object;
-                    LocationService.getInstance(context).stop();
-                    mPoiSearch.searchNearby(new PoiNearbySearchOption().keyword(SearchConstant.SEARCH_KEY_WORD)
-                            .radius(SearchConstant.SEARCH_RADIUS).pageCapacity(SearchConstant.SEARCH_PAGE_CAPACITY)
-                            .location(mLocation));
-                }
-            }
-        });
-        LocationService.getInstance(context).start();
-
         mPoiSearch = PoiSearch.newInstance();
         mPoiSearch.setOnGetPoiSearchResultListener(mOnGetPoiSearchResultListener);
+
     }
 
     @Override
-    public SparseArray<?> getData() {
-        return null;
+    public void start() {
+        mPoiSearch.searchNearby(new PoiNearbySearchOption().keyword(SearchConstant.SEARCH_KEY_WORD)
+                .radius(SearchConstant.SEARCH_RADIUS).pageCapacity(SearchConstant.SEARCH_PAGE_CAPACITY)
+                .location(mLocation));
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public void addDataCallback(PoiDataCallback callback) {
+        if (mPoiDataCallbackList.contains(callback)) {
+            LogUtils.w(TAG, "callback registered");
+        } else {
+            mPoiDataCallbackList.add(callback);
+        }
+
+    }
+
+    @Override
+    public void removeDataCallback(PoiDataCallback callback) {
+        mPoiDataCallbackList.remove(callback);
+    }
+
+    @Override
+    public void setLocation(Object object, String location) {
+        mLocation = (LatLng) object;
+        mLocationString = location;
+
     }
 }

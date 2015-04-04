@@ -9,4 +9,8 @@ public class LogUtils {
     public static void d(String tag, String msg) {
         Log.d(tag, msg);
     }
+
+    public static void w(String tag, String msg) {
+        Log.w(tag, msg);
+    }
 }
