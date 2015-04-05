@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="distance_color">#ffff0000</color>
+    <color name="title_color">#ff000000</color>
+    <color name="title_bg_color">#ff00ff00</color>
+</resources>

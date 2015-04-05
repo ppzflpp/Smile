@@ -1,6 +1,7 @@
 package com.dragon.smile.compact.baidu;
 
 import android.content.Context;
+import android.location.Location;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
@@ -42,6 +43,9 @@ public class BaiduPoiWrapper implements PoiWrapper {
                 data.name = info.name;
                 data.address = info.address;
                 data.phone = info.phoneNum;
+                data.latitude = mLocation.latitude;
+                data.longitude = mLocation.longitude;
+                data.distance = getDistance(mLocation.latitude, mLocation.longitude, info.location.latitude, info.location.longitude);
                 mBusinessDataList.add(data);
             }
 
@@ -95,5 +99,11 @@ public class BaiduPoiWrapper implements PoiWrapper {
         mLocation = (LatLng) object;
         mLocationString = location;
 
+    }
+
+    private int getDistance(double lat1, double lon1, double lat2, double lon2) {
+        float[] results = new float[1];
+        Location.distanceBetween(lat1, lon1, lat2, lon2, results);
+        return (int) results[0];
     }
 }

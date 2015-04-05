@@ -3,6 +3,7 @@ package com.dragon.smile;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +28,7 @@ public class PoiSearchActivity extends ActionBarActivity implements UiCallback {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_UPDATE_LOCATION:
-                    mLocationView.setText(mUserLocation);
+                    mLocationView.setText(getString(R.string.location_tip) + mUserLocation);
                     break;
                 case MSG_UPDATE_POI_RESULT:
                     ((POIFragment) getFragmentManager().findFragmentById(R.id.poi_fragment)).setDataList(mBusinessDataList);
@@ -45,6 +46,10 @@ public class PoiSearchActivity extends ActionBarActivity implements UiCallback {
         setContentView(R.layout.activity_poi_search);
 
         setupViews();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         BusinessManager.getInstance().init(this.getApplicationContext());
         BusinessManager.getInstance().registerCallback(this);
@@ -54,28 +59,6 @@ public class PoiSearchActivity extends ActionBarActivity implements UiCallback {
     private void setupViews() {
         mLocationView = (TextView) findViewById(R.id.user_location);
         getFragmentManager().beginTransaction().replace(R.id.poi_fragment, new POIFragment()).commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_poi_search, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -90,6 +73,30 @@ public class PoiSearchActivity extends ActionBarActivity implements UiCallback {
                 mHandler.sendEmptyMessage(MSG_UPDATE_POI_RESULT);
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

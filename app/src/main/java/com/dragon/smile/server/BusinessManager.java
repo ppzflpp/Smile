@@ -3,6 +3,9 @@ package com.dragon.smile.server;
 import android.content.Context;
 
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.navi.BaiduMapAppNotSupportNaviException;
+import com.baidu.mapapi.navi.BaiduMapNavigation;
+import com.baidu.mapapi.navi.NaviPara;
 import com.dragon.smile.UiCallback;
 import com.dragon.smile.compact.PoiDataCallback;
 import com.dragon.smile.compact.PoiWrapper;
@@ -28,6 +31,7 @@ public class BusinessManager {
     private PoiWrapper mPoiWrapper;
     private Context mContext = null;
     private UiCallback mCallback;
+    private LatLng mUserLocation = null;
 
     public static BusinessManager getInstance() {
         if (sInstance == null)
@@ -58,7 +62,8 @@ public class BusinessManager {
                 //2.begin to get poi data
                 LogUtils.d(TAG, "object = " + object + ",location = " + location);
                 if (object != null) {
-                    mPoiWrapper.setLocation((LatLng) object, location);
+                    mUserLocation = (LatLng) object;
+                    mPoiWrapper.setLocation(mUserLocation, location);
                     mPoiWrapper.addDataCallback(new PoiDataCallback() {
                         @Override
                         public void onDataCallback(List<BusinessData> dataList) {
@@ -85,6 +90,31 @@ public class BusinessManager {
 
     public void registerCallback(UiCallback callback) {
         mCallback = callback;
+    }
+
+    public void navigate(double destLatitude, double destLongitude) {
+        LatLng src = new LatLng(mUserLocation.latitude, mUserLocation.longitude);
+        LatLng dest = new LatLng(destLatitude, destLongitude);
+
+        LogUtils.d(TAG, "dest = " + destLatitude + "," + destLongitude);
+
+        // 构建 导航参数
+        NaviPara para = new NaviPara();
+        para.startPoint = src;
+        para.startName = "从这里开始";
+        para.endPoint = dest;
+        para.endName = "到这里结束";
+
+        try {
+            BaiduMapNavigation.openBaiduMapNavi(para, mContext);
+            LogUtils.d(TAG, "begin to navigate");
+        } catch (BaiduMapAppNotSupportNaviException e) {
+            e.printStackTrace();
+            LogUtils.d(TAG, "exception occur");
+            //TODO
+        }
+
+
     }
 
 

@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.dragon.smile.R;
 import com.dragon.smile.data.BusinessData;
+import com.dragon.smile.server.BusinessManager;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -61,6 +63,25 @@ public class POIAdapter extends BaseAdapter {
         viewHolder.iconView.setImageResource(R.mipmap.ic_launcher);
         viewHolder.titleView.setText(mDataList.get(position).name);
         viewHolder.addressView.setText(mDataList.get(position).address);
+        int distance = mDataList.get(position).distance;
+        if (distance > 1000) {
+            DecimalFormat df = new DecimalFormat("0.0");
+            viewHolder.distanceView.setText(df.format((double) distance / 1000) + mContext.getString(R.string.km));
+        } else {
+            viewHolder.distanceView.setText(distance + mContext.getString(R.string.m));
+        }
+        viewHolder.distanceView.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.mipmap.icon_navigate), null, null, null);
+        final int pos = position;
+        viewHolder.distanceView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BusinessManager.getInstance().navigate(mDataList.get(pos).latitude, mDataList.get(pos).longitude);
+            }
+        });
+
+        viewHolder.commentView.setText(mContext.getString(R.string.comment, mDataList.get(position).comment_technology, mDataList.get(position).comment_service, mDataList.get(position).comment_environment));
+        viewHolder.exchangeView.setText(mContext.getString(R.string.volume, mDataList.get(position).volume));
+
 
         return convertView;
     }

@@ -5,6 +5,12 @@
     <string name="title_settings">设置</string>
     <string name="title_about">关于</string>
 
+    <string name="title_activity_poi_search">附近的理发店</string>
     <string name="title_rapid_barber">快速理发</string>
     <string name="content_rapid_barber">抢红包免费理发</string>
+    <string name="location_tip">您当前所在位置: </string>
+    <string name="m">米</string>
+    <string name="km">千米</string>
+    <string name="volume">%1$s单</string>
+    <string name="comment">技术：%1$s  态度：%2$s  环境：%3$s</string>
 </resources>
