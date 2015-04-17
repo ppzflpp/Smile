@@ -6,6 +6,7 @@ import android.location.Location;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.cloud.CloudListener;
 import com.baidu.mapapi.cloud.CloudManager;
+import com.baidu.mapapi.cloud.CloudPoiInfo;
 import com.baidu.mapapi.cloud.CloudSearchResult;
 import com.baidu.mapapi.cloud.DetailSearchResult;
 import com.baidu.mapapi.cloud.NearbySearchInfo;
@@ -25,6 +26,7 @@ import com.dragon.smile.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/3/30 0030.
@@ -32,18 +34,7 @@ import java.util.List;
 public class BaiduPoiWrapper implements PoiWrapper {
 
     private final static String TAG = "BaiDuPoiWrapper";
-    private CloudListener mCloudListener = new CloudListener() {
-        @Override
-        public void onGetSearchResult(CloudSearchResult cloudSearchResult, int i) {
-            LogUtils.d(TAG, "cloud onGetSearchResult");
-        }
-
-        @Override
-        public void onGetDetailSearchResult(DetailSearchResult detailSearchResult, int i) {
-            LogUtils.d(TAG, "cloud onGetDetailSearchResult");
-        }
-    };
-    private final static boolean ENABLE_CLOUD_POI_SEARCH = false;
+    private final static boolean ENABLE_CLOUD_POI_SEARCH = true;
     private LatLng mLocation = null;
     private String mLocationString = null;
     private PoiSearch mPoiSearch = null;
@@ -51,6 +42,26 @@ public class BaiduPoiWrapper implements PoiWrapper {
     private SuggestionSearch mSuggestionSearch = null;
     private List<PoiDataCallback> mPoiDataCallbackList = new ArrayList<PoiDataCallback>();
     private List<BusinessData> mBusinessDataList = new ArrayList<>();
+    private CloudListener mCloudListener = new CloudListener() {
+        @Override
+        public void onGetSearchResult(CloudSearchResult cloudSearchResult, int i) {
+            if (cloudSearchResult != null && cloudSearchResult.poiList != null) {
+                for (CloudPoiInfo info : cloudSearchResult.poiList) {
+                    mBusinessDataList.add(parseData(info));
+
+                    for (PoiDataCallback callback : mPoiDataCallbackList)
+                        callback.onDataCallback(mBusinessDataList);
+                }
+            } else {
+                LogUtils.d(TAG, "can not get data");
+            }
+        }
+
+        @Override
+        public void onGetDetailSearchResult(DetailSearchResult detailSearchResult, int i) {
+            LogUtils.d(TAG, "cloud onGetDetailSearchResult");
+        }
+    };
     private OnGetPoiSearchResultListener mOnGetPoiSearchResultListener = new OnGetPoiSearchResultListener() {
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
@@ -59,16 +70,7 @@ public class BaiduPoiWrapper implements PoiWrapper {
                 return;
 
             for (PoiInfo info : lists) {
-                BusinessData data = new BusinessData();
-                data.id = info.uid;
-                data.name = info.name;
-                data.address = info.address;
-                data.phone = info.phoneNum;
-                data.latitude = info.location.latitude;
-                data.longitude = info.location.longitude;
-                data.distance = getDistance(mLocation.latitude, mLocation.longitude, info.location.latitude, info.location.longitude);
-                LogUtils.d(TAG, "longitude = " + data.longitude + ",latitude = " + data.latitude);
-                mBusinessDataList.add(data);
+                mBusinessDataList.add(parseData(info));
             }
 
             for (PoiDataCallback callback : mPoiDataCallbackList)
@@ -95,6 +97,25 @@ public class BaiduPoiWrapper implements PoiWrapper {
 
     }
 
+    private BusinessData parseData(Object object) {
+        BusinessData data = new BusinessData();
+        if (object instanceof PoiInfo) {
+            PoiInfo info = (PoiInfo) object;
+
+        } else if (object instanceof CloudPoiInfo) {
+            CloudPoiInfo info = (CloudPoiInfo) object;
+            Map<String, Object> extras = info.extras;
+            data.id = String.valueOf(info.uid);
+            data.name = info.title;
+            data.address = info.address;
+            data.phone = (String) extras.get("phone");
+            data.latitude = info.latitude;
+            data.longitude = info.longitude;
+            data.distance = info.distance;
+        }
+        return data;
+    }
+
     @Override
     public void start() {
         if (ENABLE_CLOUD_POI_SEARCH) {
@@ -102,9 +123,10 @@ public class BaiduPoiWrapper implements PoiWrapper {
             info.ak = "1ef16c3021f26091f465617ae4f790eb";
             info.pageSize = SearchConstant.SEARCH_PAGE_CAPACITY;
             info.radius = SearchConstant.SEARCH_RADIUS;
+            info.geoTableId = 99144;
             info.location = new StringBuilder().append(mLocation.longitude).append(",").append(mLocation.latitude).toString();
-            mCloudManager.nearbySearch(info);
-            LogUtils.d(TAG, "--------------------------nearbySearch------------------------" + info.location.toString());
+            boolean result = mCloudManager.nearbySearch(info);
+            LogUtils.d(TAG, "--------------------------nearbySearch------------------------" + info.location.toString() + ",result = " + result);
         } else {
             mPoiSearch.searchNearby(new PoiNearbySearchOption().keyword(SearchConstant.SEARCH_KEY_WORD)
                     .radius(SearchConstant.SEARCH_RADIUS).pageCapacity(SearchConstant.SEARCH_PAGE_CAPACITY)
