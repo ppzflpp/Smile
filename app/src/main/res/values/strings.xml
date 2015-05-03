@@ -1,4 +1,5 @@
 <resources>
+    <string name="test">Test String</string>
     <string name="app_name">Smile</string>
 
     <string name="title_home_page">Barber</string>
@@ -22,5 +23,15 @@
     <string name="location_tip">Current Location:</string>
     <string name="m">M</string>
     <string name="km">KM</string>
+    <string name="title_activity_pay">Pay</string>
+    <string name="pay_method">Pay Method</string>
+    <string name="method_wei_xin">WeiXin</string>
+    <string name="method_zhi_fu_bao">ZhiFuBao</string>
+    <string name="paying">Paying...</string>
+    <string name="order_info">OrderInfo</string>
+    <string name="user_name">UserName：</string>
+    <string name="service_name">ServiceName：</string>
+    <string name="order_money_amount">Order：</string>
+    <string name="order_pay">Pay</string>
 
 </resources>

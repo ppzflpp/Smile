@@ -26,6 +26,7 @@ public class POIFragment extends ListFragment {
     private String mParam2;
 
     private POIAdapter mAdapter = null;
+    private List<BusinessData> mDataList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,13 +76,14 @@ public class POIFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
 
     }
-
     public void setDataList(List<BusinessData> dataList) {
         for (BusinessData data : dataList) {
             LogUtils.d(TAG, "data = " + data.address);
         }
-        mAdapter.setDataList(dataList);
+        mDataList = dataList;
+        mAdapter.setDataList(mDataList);
         mAdapter.notifyDataSetChanged();
     }
+
 
 }

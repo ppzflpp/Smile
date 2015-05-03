@@ -2,16 +2,23 @@ package com.dragon.smile.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dragon.smile.PayActivity;
 import com.dragon.smile.R;
 import com.dragon.smile.data.BusinessData;
+import com.dragon.smile.data.PayItem;
+import com.dragon.smile.data.ServiceItem;
 import com.dragon.smile.server.BusinessManager;
+import com.dragon.smile.utils.LogUtils;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -20,11 +27,13 @@ import java.util.List;
  * Created by Administrator on 2015/4/4 0004.
  */
 public class POIAdapter extends BaseAdapter {
+    private static final String TAG = "POIAdapter";
+
     private Context mContext = null;
     private List<BusinessData> mDataList = null;
 
     public POIAdapter(Activity activity) {
-        mContext = activity.getApplicationContext();
+        mContext = activity;
     }
 
 
@@ -55,6 +64,7 @@ public class POIAdapter extends BaseAdapter {
             viewHolder.exchangeView = (TextView) convertView.findViewById(R.id.poi_item_exchange);
             viewHolder.addressView = (TextView) convertView.findViewById(R.id.poi_item_address);
             viewHolder.distanceView = (TextView) convertView.findViewById(R.id.poi_item_distance);
+            viewHolder.servicesView = (LinearLayout) convertView.findViewById(R.id.poi_item_services);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -63,6 +73,8 @@ public class POIAdapter extends BaseAdapter {
         viewHolder.iconView.setImageResource(R.mipmap.ic_launcher);
         viewHolder.titleView.setText(mDataList.get(position).name);
         viewHolder.addressView.setText(mDataList.get(position).address);
+        createItems(viewHolder.servicesView, mDataList.get(position).serviceItems, position);
+
         int distance = mDataList.get(position).distance;
         if (distance > 1000) {
             DecimalFormat df = new DecimalFormat("0.0");
@@ -86,6 +98,34 @@ public class POIAdapter extends BaseAdapter {
         return convertView;
     }
 
+    private void createItems(ViewGroup parentView, List<ServiceItem> items, int position) {
+        if (items != null) {
+            for (final ServiceItem item : items) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.poi_item_service_item, null);
+                TextView name = (TextView) view.findViewById(R.id.poi_service_item_name);
+                LogUtils.d(TAG, "name = " + item.serviceName);
+                name.setText(item.serviceName);
+                TextView price = (TextView) view.findViewById(R.id.poi_service_item_price);
+                price.setText(item.servicePrice);
+                TextView info = (TextView) view.findViewById(R.id.poi_service_item_info);
+                info.setText(item.serviceInfo);
+                Button pay = (Button) view.findViewById(R.id.poi_service_item_pay);
+                pay.setTag(position);
+                pay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, PayActivity.class);
+                        int pos = (Integer) v.getTag();
+                        PayItem payItem = PayItem.createPayItem(item, mDataList.get(pos).phone, mDataList.get(pos).name);
+                        intent.putExtra("pay_item", payItem);
+                        mContext.startActivity(intent);
+                    }
+                });
+                parentView.addView(view);
+            }
+        }
+    }
+
     public void setDataList(List<BusinessData> dataList) {
         mDataList = dataList;
     }
@@ -97,5 +137,6 @@ public class POIAdapter extends BaseAdapter {
         TextView exchangeView;
         TextView addressView;
         TextView distanceView;
+        LinearLayout servicesView;
     }
 }

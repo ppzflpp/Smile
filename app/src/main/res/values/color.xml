@@ -3,4 +3,8 @@
     <color name="distance_color">#ffff0000</color>
     <color name="title_color">#ff000000</color>
     <color name="title_bg_color">#ff00ff00</color>
+    <color name="order_info_item_bg">#ffffffff</color>
+    <color name="order_info_bg">#ffeeeeee</color>
+    <color name="service_item_bg">#ffeeeeee</color>
+
 </resources>

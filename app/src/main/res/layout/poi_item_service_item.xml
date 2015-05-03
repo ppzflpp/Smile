@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ff00ff00">
+
+    <TextView
+        android:id="@+id/poi_service_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/title_color" />
+
+    <TextView
+        android:id="@+id/poi_service_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/title_color" />
+
+    <TextView
+        android:id="@+id/poi_service_item_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/poi_service_item_name"
+        android:textColor="@color/title_color" />
+
+    <Button
+        android:id="@+id/poi_service_item_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/poi_service_item_price"
+        android:text="@string/order_pay"
+        android:textColor="@color/title_color" />
+
+</RelativeLayout>

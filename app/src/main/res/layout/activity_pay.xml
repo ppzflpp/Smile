@@ -1,0 +1,153 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dip"
+    android:layout_marginTop="10dip"
+    android:background="@color/order_info_bg"
+    tools:context="com.dragon.smile.PayActivity"
+    tools:ignore="MergeRootFrame">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- 订单信息 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/order_info_item_bg"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip">
+
+                <TextView
+                    android:id="@+id/order_info_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_info_item_height"
+                    android:drawableLeft="@drawable/ic_order_info"
+                    android:drawablePadding="10dip"
+                    android:text="@string/order_info" />
+
+                <!-- 商户名称 -->
+                <TextView
+                    android:id="@+id/user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_item_height"
+                    android:layout_below="@id/order_info_id"
+                    android:text="@string/user_name" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_item_height"
+                    android:layout_below="@id/order_info_id"
+                    android:layout_toRightOf="@id/user_id"
+                    android:text="@string/test" />
+
+                <!-- 服务项目 -->
+                <TextView
+                    android:id="@+id/service_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_item_height"
+                    android:layout_below="@id/user_id"
+                    android:text="@string/service_name" />
+
+                <TextView
+                    android:id="@+id/service_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_item_height"
+                    android:layout_below="@id/user_id"
+                    android:layout_toRightOf="@id/service_id"
+                    android:text="@string/test" />
+
+                <!-- 订单金额 -->
+                <TextView
+                    android:id="@+id/order_money_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_item_height"
+                    android:layout_below="@id/service_id"
+                    android:text="@string/order_money_amount" />
+
+                <TextView
+                    android:id="@+id/order_money_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_item_height"
+                    android:layout_below="@id/service_id"
+                    android:layout_toRightOf="@id/order_money_id"
+                    android:text="@string/test" />
+            </RelativeLayout>
+
+            <!-- 红包 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:layout_marginTop="10dip"
+                android:background="@color/order_info_item_bg"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"></RelativeLayout>
+
+
+            <!-- 支付方式 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@color/order_info_item_bg"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip">
+
+                <TextView
+                    android:id="@+id/pay_method_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/order_info_item_height"
+                    android:drawableLeft="@drawable/icon_pay_method"
+                    android:drawablePadding="10dip"
+                    android:text="@string/pay_method" />
+
+                <RadioGroup
+                    android:id="@+id/pay_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pay_method_id">
+
+                    <RadioButton
+                        android:id="@+id/pay_method_wei_xin"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/order_item_height"
+                        android:checked="true"
+                        android:text="@string/method_wei_xin" />
+
+                    <RadioButton
+                        android:id="@+id/pay_method_zhi_fu_bao"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/order_item_height"
+                        android:text="@string/method_zhi_fu_bao" />
+
+                </RadioGroup>
+
+
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/button_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginLeft="50dip"
+                android:layout_marginRight="50dip"
+                android:layout_marginTop="10dip"
+                android:text="@string/order_pay" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+</FrameLayout>

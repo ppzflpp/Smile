@@ -1,4 +1,5 @@
 <resources>
+    <string name="test">测试字符串</string>
     <string name="app_name">理发行</string>
     <string name="title_home_page">首页</string>
     <string name="title_user_info">用户信息</string>
@@ -6,6 +7,7 @@
     <string name="title_about">关于</string>
 
     <string name="title_activity_poi_search">附近的理发店</string>
+    <string name="title_activity_pay">支付</string>
     <string name="title_rapid_barber">快速理发</string>
     <string name="content_rapid_barber">抢红包免费理发</string>
     <string name="location_tip">您当前所在位置: </string>
@@ -13,4 +15,13 @@
     <string name="km">千米</string>
     <string name="volume">%1$s单</string>
     <string name="comment">技术：%1$s  态度：%2$s  环境：%3$s</string>
+    <string name="pay_method">支付方式</string>
+    <string name="method_wei_xin">微信支付</string>
+    <string name="method_zhi_fu_bao">支付宝支付</string>
+    <string name="paying">正在支付...</string>
+    <string name="order_info">订单信息</string>
+    <string name="user_name">商户名称：</string>
+    <string name="service_name">服务项目：</string>
+    <string name="order_pay">支付</string>
+    <string name="order_money_amount">订单金额：</string>
 </resources>

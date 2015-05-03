@@ -3,4 +3,6 @@
     <dimen name="activity_horizontal_margin">3dp</dimen>
     <dimen name="activity_vertical_margin">3dp</dimen>
     <dimen name="navigation_drawer_width">180dp</dimen>
+    <dimen name="order_info_item_height">24dip</dimen>
+    <dimen name="order_item_height">36dip</dimen>
 </resources>

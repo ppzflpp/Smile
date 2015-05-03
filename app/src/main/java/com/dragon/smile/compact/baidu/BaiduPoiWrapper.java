@@ -18,6 +18,7 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
+import com.dragon.smile.compact.DataParser;
 import com.dragon.smile.compact.PoiDataCallback;
 import com.dragon.smile.compact.PoiWrapper;
 import com.dragon.smile.data.BusinessData;
@@ -79,7 +80,6 @@ public class BaiduPoiWrapper implements PoiWrapper {
 
         @Override
         public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-            LogUtils.d(TAG, "---2---" + poiDetailResult);
         }
     };
 
@@ -89,7 +89,6 @@ public class BaiduPoiWrapper implements PoiWrapper {
         if (ENABLE_CLOUD_POI_SEARCH) {
             mCloudManager = CloudManager.getInstance();
             mCloudManager.init(mCloudListener);
-            LogUtils.d(TAG, "--------------------------init------------------------");
         } else {
             mPoiSearch = PoiSearch.newInstance();
             mPoiSearch.setOnGetPoiSearchResultListener(mOnGetPoiSearchResultListener);
@@ -106,12 +105,11 @@ public class BaiduPoiWrapper implements PoiWrapper {
             CloudPoiInfo info = (CloudPoiInfo) object;
             Map<String, Object> extras = info.extras;
             data.id = String.valueOf(info.uid);
-            data.name = info.title;
-            data.address = info.address;
-            data.phone = (String) extras.get("phone");
             data.latitude = info.latitude;
             data.longitude = info.longitude;
             data.distance = info.distance;
+            String extra = (String) extras.get("extra");
+            DataParser.parseData(data, extra);
         }
         return data;
     }
@@ -126,7 +124,6 @@ public class BaiduPoiWrapper implements PoiWrapper {
             info.geoTableId = 99144;
             info.location = new StringBuilder().append(mLocation.longitude).append(",").append(mLocation.latitude).toString();
             boolean result = mCloudManager.nearbySearch(info);
-            LogUtils.d(TAG, "--------------------------nearbySearch------------------------" + info.location.toString() + ",result = " + result);
         } else {
             mPoiSearch.searchNearby(new PoiNearbySearchOption().keyword(SearchConstant.SEARCH_KEY_WORD)
                     .radius(SearchConstant.SEARCH_RADIUS).pageCapacity(SearchConstant.SEARCH_PAGE_CAPACITY)
