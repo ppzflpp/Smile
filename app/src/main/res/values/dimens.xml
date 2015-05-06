@@ -5,4 +5,6 @@
     <dimen name="navigation_drawer_width">180dp</dimen>
     <dimen name="order_info_item_height">24dip</dimen>
     <dimen name="order_item_height">36dip</dimen>
+    <dimen name="login_info_text_size">18dip</dimen>
+    <dimen name="login_activity_vertical_margin">18dip</dimen>
 </resources>

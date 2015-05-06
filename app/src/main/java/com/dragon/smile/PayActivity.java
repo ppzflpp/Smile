@@ -21,7 +21,6 @@ public class PayActivity extends ActionBarActivity {
 
     private final static String TAG = "PayActivity";
 
-    private final static String APP_ID = "23bdc5c09d29d653c30fe3d5932fb525";
 
     private final static int PAY_METHOD_WEI_XIN = 0;
     private int mPayMethodId = PAY_METHOD_WEI_XIN;
@@ -44,7 +43,7 @@ public class PayActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
-        BmobPay.init(this, APP_ID);
+        BmobPay.init(this, SmileApplication.APP_ID);
         mBmobPay = new BmobPay(this);
         mPayItem = (PayItem) getIntent().getSerializableExtra("pay_item");
         setupViews();

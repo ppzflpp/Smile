@@ -33,5 +33,7 @@
     <string name="service_name">ServiceName：</string>
     <string name="order_money_amount">Order：</string>
     <string name="order_pay">Pay</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 
 </resources>

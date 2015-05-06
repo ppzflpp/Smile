@@ -6,5 +6,6 @@ package com.dragon.smile;
 public class BottomBarMenu {
 
     public static final int HOME_PAGE = 0;
+    public static final int USER_INFO = 1;
 
 }
