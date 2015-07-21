@@ -12,13 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dragon.smile.LoginActivity;
 import com.dragon.smile.PayActivity;
 import com.dragon.smile.R;
+import com.dragon.smile.SmileApplication;
 import com.dragon.smile.data.BusinessData;
 import com.dragon.smile.data.PayItem;
 import com.dragon.smile.data.ServiceItem;
 import com.dragon.smile.server.BusinessManager;
-import com.dragon.smile.utils.LogUtils;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -26,13 +27,13 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/4/4 0004.
  */
-public class POIAdapter extends BaseAdapter {
+public class NearSearchAdapter extends BaseAdapter {
     private static final String TAG = "POIAdapter";
 
     private Context mContext = null;
     private List<BusinessData> mDataList = null;
 
-    public POIAdapter(Activity activity) {
+    public NearSearchAdapter(Activity activity) {
         mContext = activity;
     }
 
@@ -56,23 +57,25 @@ public class POIAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.poi_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.near_search_fragment_item, null);
             viewHolder = new ViewHolder();
-            viewHolder.iconView = (ImageView) convertView.findViewById(R.id.poi_item_icon);
-            viewHolder.titleView = (TextView) convertView.findViewById(R.id.poi_item_title);
-            viewHolder.commentView = (TextView) convertView.findViewById(R.id.poi_item_comment);
-            viewHolder.exchangeView = (TextView) convertView.findViewById(R.id.poi_item_exchange);
-            viewHolder.addressView = (TextView) convertView.findViewById(R.id.poi_item_address);
-            viewHolder.distanceView = (TextView) convertView.findViewById(R.id.poi_item_distance);
-            viewHolder.servicesView = (LinearLayout) convertView.findViewById(R.id.poi_item_services);
+            viewHolder.iconView = (ImageView) convertView.findViewById(R.id.near_search_fragment_item_icon);
+            viewHolder.titleView = (TextView) convertView.findViewById(R.id.near_search_fragment_item_title);
+            viewHolder.commentView = (TextView) convertView.findViewById(R.id.near_search_fragment_item_comment);
+            viewHolder.exchangeView = (TextView) convertView.findViewById(R.id.near_search_fragment_item_exchange);
+            viewHolder.addressView = (TextView) convertView.findViewById(R.id.near_search_fragment_item_address);
+            viewHolder.distanceView = (TextView) convertView.findViewById(R.id.near_search_fragment_item_distance);
+            viewHolder.servicesView = (LinearLayout) convertView.findViewById(R.id.near_search_fragment_item_services);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.iconView.setImageResource(R.mipmap.ic_launcher);
+        viewHolder.iconView.setImageResource(R.drawable.icon);
         viewHolder.titleView.setText(mDataList.get(position).name);
         viewHolder.addressView.setText(mDataList.get(position).address);
+        viewHolder.addressView.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_navigate), null, null, null);
+
         createItems(viewHolder.servicesView, mDataList.get(position).serviceItems, position);
 
         int distance = mDataList.get(position).distance;
@@ -82,7 +85,7 @@ public class POIAdapter extends BaseAdapter {
         } else {
             viewHolder.distanceView.setText(distance + mContext.getString(R.string.m));
         }
-        viewHolder.distanceView.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.mipmap.icon_navigate), null, null, null);
+
         final int pos = position;
         viewHolder.distanceView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,12 +104,11 @@ public class POIAdapter extends BaseAdapter {
     private void createItems(ViewGroup parentView, List<ServiceItem> items, int position) {
         if (items != null) {
             for (final ServiceItem item : items) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.poi_item_service_item, null);
+                View view = LayoutInflater.from(mContext).inflate(R.layout.near_search_fragment_item_service_item, null);
                 TextView name = (TextView) view.findViewById(R.id.poi_service_item_name);
-                LogUtils.d(TAG, "name = " + item.serviceName);
                 name.setText(item.serviceName);
                 TextView price = (TextView) view.findViewById(R.id.poi_service_item_price);
-                price.setText(item.servicePrice);
+                price.setText(mContext.getString(R.string.renminbi) + item.servicePrice);
                 TextView info = (TextView) view.findViewById(R.id.poi_service_item_info);
                 info.setText(item.serviceInfo);
                 Button pay = (Button) view.findViewById(R.id.poi_service_item_pay);
@@ -114,11 +116,16 @@ public class POIAdapter extends BaseAdapter {
                 pay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mContext, PayActivity.class);
-                        int pos = (Integer) v.getTag();
-                        PayItem payItem = PayItem.createPayItem(item, mDataList.get(pos).phone, mDataList.get(pos).name);
-                        intent.putExtra("pay_item", payItem);
-                        mContext.startActivity(intent);
+                        if (((SmileApplication) ((Activity) mContext).getApplication()).mIsLoginIn) {
+                            Intent intent = new Intent(mContext, PayActivity.class);
+                            int pos = (Integer) v.getTag();
+                            PayItem payItem = PayItem.createPayItem(item, mDataList.get(pos).phone, mDataList.get(pos).name);
+                            intent.putExtra("pay_item", payItem);
+                            mContext.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            mContext.startActivity(intent);
+                        }
                     }
                 });
                 parentView.addView(view);

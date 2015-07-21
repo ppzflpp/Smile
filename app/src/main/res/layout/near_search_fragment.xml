@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dragon.smile.PoiSearchActivity">
+
+    <TextView
+        android:id="@+id/user_location"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="#ff2e8434"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dip"
+        android:textColor="@color/white" />
+
+    <ListView
+        android:id="@+id/near_search_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/user_location" />
+
+</RelativeLayout>

@@ -2,15 +2,17 @@
     <string name="test">测试字符串</string>
     <string name="app_name">理发行</string>
     <string name="title_home_page">首页</string>
-    <string name="title_user_info">用户信息</string>
-    <string name="title_settings">设置</string>
+    <string name="title_user_info">个人</string>
+    <string name="title_near_search">附近</string>
+    <string name="title_my_order">更多</string>
     <string name="title_about">关于</string>
 
+    <string name="title_activity_red_packet">抢红包</string>
     <string name="title_activity_poi_search">附近的理发店</string>
     <string name="title_activity_pay">支付</string>
-    <string name="title_rapid_barber">快速理发</string>
-    <string name="content_rapid_barber">抢红包免费理发</string>
-    <string name="location_tip">您当前所在位置: </string>
+    <string name="title_rapid_red_packet">抢红包</string>
+    <string name="content_rapid_red_packet">抢红包免费喝奶茶</string>
+    <string name="location_tip"><b>当前位置:   </b></string>
     <string name="m">米</string>
     <string name="km">千米</string>
     <string name="volume">%1$s单</string>
@@ -19,7 +21,7 @@
     <string name="method_wei_xin">微信支付</string>
     <string name="method_zhi_fu_bao">支付宝支付</string>
     <string name="paying">正在支付...</string>
-    <string name="order_info">订单信息</string>
+    <string name="order_info">订单详情</string>
     <string name="user_name">商户名称：</string>
     <string name="service_name">服务项目：</string>
     <string name="order_pay">支付</string>
@@ -38,4 +40,29 @@
     <string name="register_user_password">登录密码</string>
     <string name="register_user_email">电子邮件</string>
     <string name="register_fail">注册失败</string>
+    <string name="un_login">您还没有登录</string>
+    <string name="about_us">关于我们</string>
+    <string name="call_us">联系客服</string>
+    <string name="software_update">软件更新</string>
+    <string name="about_us_content">
+        <h1>芒果科技</h1>
+        我们的宗旨是给让用户花费最少的钱，获得最好的服务.
+    </string>
+    <string name="unknow_version">未知版本</string>
+    <string name="renminbi">¥ </string>
+    <string name="back">返回 </string>
+    <string name="find_password">找回密码</string>
+    <string name="my_red_packet">我的红包:</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_phone">电话号码</string>
+    <string name="hint_email">电子邮件</string>
+    <string name="get_red_packet">恭喜您抢到&#160;&#160;%1$s元&#160;&#160;红包大礼</string>
+    <string name="can_not_get_red_packet">您暂时不能获取新的红包</string>
+    <string name="yuan">元</string>
+    <string name="red_packet_size">红包金额:</string>
+    <string name="break_info">优惠信息</string>
+    <string name="day_recommend_title">每日推荐</string>
+    <string name="day_recommend_content">推荐您最喜欢的奶茶</string>
+
+
 </resources>

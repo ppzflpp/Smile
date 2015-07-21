@@ -1,110 +1,87 @@
 package com.dragon.smile;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
-import com.dragon.smile.fragment.MainPageFragment;
+import com.dragon.smile.fragment.BottomBarMenuView;
+import com.dragon.smile.server.BusinessManager;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, MainPageFragment.OnFragmentInteractionListener {
+        implements BottomBarMenuView.BottomViewClickedInterface {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
+    private BottomBarMenuView mMenuView;
+    private TextView mTitleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        View view = LayoutInflater.from(this).inflate(R.layout.title_bar, null);
+        mTitleView = (TextView) view.findViewById(R.id.action_bar_title_view);
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+        lp.leftMargin = 0;
+        getSupportActionBar().setCustomView(view, lp);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.title_bg_color));
+        }
+
+        mMenuView = (BottomBarMenuView) findViewById(R.id.bottom_bar_menu_view);
+        mMenuView.setCallBack(this);
+        mMenuView.updateViewState(0);
+        onBottomViewClicked(0);
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
+    public void onBottomViewClicked(int position) {
+        updateTitle(position);
+        updateBottomBarViewContent(position);
+    }
+
+    private void updateBottomBarViewContent(int position) {
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, com.dragon.smile.FragmentManager.getFragment(position))
                 .commit();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
+    private void updateTitle(int position) {
+        switch (position) {
+            case 0:
                 mTitle = getString(R.string.title_home_page);
+                break;
+            case 1:
+                mTitle = getString(R.string.title_near_search);
                 break;
             case 2:
                 mTitle = getString(R.string.title_user_info);
                 break;
             case 3:
-                mTitle = getString(R.string.title_settings);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_about);
+                mTitle = getString(R.string.title_my_order);
                 break;
         }
+        mTitleView.setText(mTitle);
     }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            //getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onFragmentInteraction(String id) {
-
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("TAG", "onDestroy......123..");
+        BusinessManager.getInstance().stop();
     }
 }

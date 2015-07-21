@@ -35,5 +35,7 @@
     <string name="order_pay">Pay</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="title_activity_red_packet">RedPacketActivity</string>
+    <string name="title_activity_find_password">FindPasswordActivity</string>
 
 </resources>

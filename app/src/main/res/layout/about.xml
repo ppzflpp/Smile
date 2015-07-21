@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="15dip">
+
+    <RelativeLayout
+        android:id="@+id/about_us_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/list_item_bg"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip">
+
+
+        <TextView
+            android:id="@+id/about_us"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/activity_about_list_height"
+            android:gravity="center_vertical"
+            android:text="@string/about_us"
+            android:textColor="@color/activity_about_text_color"
+            android:textSize="@dimen/activity_about_text_size" />
+
+        <TextView
+            android:id="@+id/about_us_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/about_us"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/about_us_icon"
+            android:textColor="@color/activity_about_text_color"
+            android:textSize="@dimen/activity_about_text_size" />
+
+        <TextView
+            android:id="@+id/about_us_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_us"
+            android:layout_marginTop="5dip"
+            android:text="@string/about_us_content"
+            android:textColor="@color/activity_about_text_color"
+            android:textSize="@dimen/activity_about_text_size_1"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/software_update_parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_about_list_height"
+        android:layout_marginTop="10dip"
+        android:background="@color/list_item_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip">
+
+        <TextView
+            android:id="@+id/software_update"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:text="@string/software_update"
+            android:textColor="@color/activity_about_text_color"
+            android:textSize="@dimen/activity_about_text_size" />
+
+        <TextView
+            android:id="@+id/software_update_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/activity_about_text_color"
+            android:textSize="@dimen/activity_about_text_size" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/call_us"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_about_list_height"
+        android:layout_marginTop="10dip"
+        android:background="@color/list_item_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:text="@string/call_us"
+        android:textColor="@color/activity_about_text_color"
+        android:textSize="@dimen/activity_about_text_size"
+        android:visibility="gone" />
+
+</LinearLayout>
+
+
+

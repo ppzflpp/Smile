@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dragon.smile" >
+    package="com.dragon.smile">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -47,7 +47,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Pi6OtNj1Z47QCTVQPZEUBoqu" />
@@ -56,7 +56,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -90,16 +90,22 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/login"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/register"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".RedPacketActivity"
+            android:label="@string/title_activity_red_packet"></activity>
+        <activity
+            android:name=".FindPasswordActivity"
+            android:label="@string/title_activity_find_password"></activity>
     </application>
 
 </manifest>

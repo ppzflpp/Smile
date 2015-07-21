@@ -32,6 +32,8 @@ public class BusinessManager {
     private Context mContext = null;
     private UiCallback mCallback;
     private LatLng mUserLocation = null;
+    private PoiDataCallback mDataCallBack = null;
+    private boolean mStarted = false;
 
     public static BusinessManager getInstance() {
         if (sInstance == null)
@@ -47,6 +49,10 @@ public class BusinessManager {
     }
 
     public void start() {
+        if (mStarted) {
+            LogUtils.d(TAG, "BusinessManager had started");
+        }
+        mStarted = true;
         //locate
         LocationService.getInstance(mContext).addLocationListener(new LocationListener() {
             @Override
@@ -64,19 +70,22 @@ public class BusinessManager {
                 if (object != null) {
                     mUserLocation = (LatLng) object;
                     mPoiWrapper.setLocation(mUserLocation, location);
-                    mPoiWrapper.addDataCallback(new PoiDataCallback() {
-                        @Override
-                        public void onDataCallback(List<BusinessData> dataList) {
-                            if (dataList == null)
-                                return;
+                    if (mDataCallBack == null) {
+                        mDataCallBack = new PoiDataCallback() {
+                            @Override
+                            public void onDataCallback(List<BusinessData> dataList) {
+                                if (dataList == null)
+                                    return;
 
-                            mBusinessDataList = dataList;
-                            //notify ui to update
-                            if (mCallback != null) {
-                                mCallback.onUIRefresh(UiCallback.UI_TYPE_LOCATION_POI_RESULT, mBusinessDataList);
+                                mBusinessDataList = dataList;
+                                //notify ui to update
+                                if (mCallback != null) {
+                                    mCallback.onUIRefresh(UiCallback.UI_TYPE_LOCATION_POI_RESULT, mBusinessDataList);
+                                }
                             }
-                        }
-                    });
+                        };
+                    }
+                    mPoiWrapper.addDataCallback(mDataCallBack);
                     mPoiWrapper.start();
                 }
             }
@@ -85,7 +94,17 @@ public class BusinessManager {
     }
 
     public void stop() {
-        //TODO
+        if (!mStarted) {
+            LogUtils.d(TAG, "BusinessManager had stopped");
+            return;
+        }
+
+        if (mPoiWrapper != null) {
+            mPoiWrapper.removeDataCallback(mDataCallBack);
+            mDataCallBack = null;
+            mPoiWrapper.stop();
+        }
+        mStarted = false;
     }
 
     public void registerCallback(UiCallback callback) {

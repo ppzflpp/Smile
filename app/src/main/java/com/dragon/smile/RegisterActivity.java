@@ -3,28 +3,31 @@ package com.dragon.smile;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dragon.smile.data.LoginUser;
-import com.dragon.smile.utils.LogUtils;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends ActionBarActivity {
 
     private final static String TAG = "RegisterActivity";
 
     private UserRegisterTask mAuthTask = null;
 
-    private EditText mUserNameView;
     private EditText mPasswordView;
     private EditText mPhoneView;
     private EditText mEmailView;
@@ -37,10 +40,26 @@ public class RegisterActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register);
+        if (Build.VERSION.SDK_INT >= 21) {
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.title_bg_color));
+        }
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        View view = LayoutInflater.from(this).inflate(R.layout.title_bar, null);
+        ((TextView) view.findViewById(R.id.action_bar_title_view)).setText(R.string.login);
+        view.findViewById(R.id.action_bar_title_view_back).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.action_bar_title_view_back).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+        getSupportActionBar().setCustomView(view, lp);
 
         mProgressView = findViewById(R.id.register_progress);
 
-        mUserNameView = (EditText) findViewById(R.id.register_user_name);
         mPasswordView = (EditText) findViewById(R.id.register_user_password);
         mPhoneView = (EditText) findViewById(R.id.register_user_phone);
         mEmailView = (EditText) findViewById(R.id.register_user_email);
@@ -49,7 +68,8 @@ public class RegisterActivity extends Activity {
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mUserNameView.getText() != null && mPasswordView.getText() != null) {
+                if (mPhoneView.getText() != null && mPasswordView.getText() != null
+                        && mEmailView.getText() != null) {
                     attemptRegister();
                 }
             }
@@ -62,7 +82,6 @@ public class RegisterActivity extends Activity {
             return;
         }
 
-        String userName = mUserNameView.getText().toString();
         String password = mPasswordView.getText().toString();
         String phone = null;
         if (mPhoneView.getText() != null)
@@ -72,7 +91,7 @@ public class RegisterActivity extends Activity {
             email = mEmailView.getText().toString();
 
         showProgress(true);
-        mAuthTask = new UserRegisterTask(userName, password, phone, email);
+        mAuthTask = new UserRegisterTask(phone, password, phone, email);
         mAuthTask.execute((Void) null);
     }
 
@@ -135,7 +154,7 @@ public class RegisterActivity extends Activity {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            LoginUser user = new LoginUser();
+            final LoginUser user = new LoginUser();
             user.setUsername(mUserName);
             user.setPassword(mPassword);
             user.setEmail(mEmail);
@@ -148,11 +167,13 @@ public class RegisterActivity extends Activity {
                     SharedPreferences.Editor edit = sp.edit();
                     edit.putString(SmileSharedPreference.FIELD_USER_NAME, mUserName);
                     edit.commit();
+                    ((SmileApplication) getApplication()).mIsLoginIn = true;
+                    ((SmileApplication) getApplication()).mLoginUser = BmobUser.getCurrentUser(getApplicationContext(), LoginUser.class);
                 }
 
                 @Override
                 public void onFailure(int code, String msg) {
-                    LogUtils.d(TAG, "------------------------------------------register fail,code = " + code + ",msg = " + msg);
+                    Log.d("TAG", "msg = " + msg);
                     Toast.makeText(RegisterActivity.this, R.string.register_fail, Toast.LENGTH_SHORT).show();
                 }
             });

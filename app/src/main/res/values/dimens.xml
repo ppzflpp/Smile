@@ -7,4 +7,17 @@
     <dimen name="order_item_height">36dip</dimen>
     <dimen name="login_info_text_size">18dip</dimen>
     <dimen name="login_activity_vertical_margin">18dip</dimen>
+    <dimen name="list_item_height">36dip</dimen>
+
+    <dimen name="near_search_item_text_size_1">16dip</dimen>
+    <dimen name="near_search_item_text_size_2">14dip</dimen>
+    <dimen name="near_search_item_text_size_3">12dip</dimen>
+
+    <dimen name="activity_pay_text_size_1">16dip</dimen>
+    <dimen name="activity_pay_text_size_2">20dip</dimen>
+    <dimen name="activity_pay_text_size_3">22dip</dimen>
+    <dimen name="activity_about_text_size">18dip</dimen>
+    <dimen name="activity_about_text_size_1">16dip</dimen>
+    <dimen name="activity_about_list_height">48dip</dimen>
+
 </resources>

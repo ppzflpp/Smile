@@ -6,7 +6,7 @@
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@drawable/title_bar_bg</item>
+        <item name="background">@color/title_bg_color</item>
     </style>
 
 </resources>

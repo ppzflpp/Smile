@@ -2,6 +2,7 @@ package com.dragon.smile.compact.baidu;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.cloud.CloudListener;
@@ -36,6 +37,7 @@ public class BaiduPoiWrapper implements PoiWrapper {
 
     private final static String TAG = "BaiDuPoiWrapper";
     private final static boolean ENABLE_CLOUD_POI_SEARCH = true;
+    private boolean mStarted = false;
     private LatLng mLocation = null;
     private String mLocationString = null;
     private PoiSearch mPoiSearch = null;
@@ -47,6 +49,9 @@ public class BaiduPoiWrapper implements PoiWrapper {
         @Override
         public void onGetSearchResult(CloudSearchResult cloudSearchResult, int i) {
             if (cloudSearchResult != null && cloudSearchResult.poiList != null) {
+
+                mBusinessDataList.clear();
+                Log.d("TAG", "onGetSearchResult..efefewfe....i  = " + i);
                 for (CloudPoiInfo info : cloudSearchResult.poiList) {
                     mBusinessDataList.add(parseData(info));
 
@@ -69,6 +74,8 @@ public class BaiduPoiWrapper implements PoiWrapper {
             List<PoiInfo> lists = poiResult.getAllPoi();
             if (lists == null)
                 return;
+
+            mBusinessDataList.clear();
 
             for (PoiInfo info : lists) {
                 mBusinessDataList.add(parseData(info));
@@ -116,7 +123,14 @@ public class BaiduPoiWrapper implements PoiWrapper {
 
     @Override
     public void start() {
+        if (mStarted) {
+            LogUtils.d(TAG, "search had started");
+            return;
+        }
+
+        mStarted = true;
         if (ENABLE_CLOUD_POI_SEARCH) {
+            Log.d("TAG", "wrapper start");
             NearbySearchInfo info = new NearbySearchInfo();
             info.ak = "1ef16c3021f26091f465617ae4f790eb";
             info.pageSize = SearchConstant.SEARCH_PAGE_CAPACITY;
@@ -133,7 +147,7 @@ public class BaiduPoiWrapper implements PoiWrapper {
 
     @Override
     public void stop() {
-
+        mStarted = false;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class MainPageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.main_page_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.home_page, null);
             viewHolder = new ViewHolder();
             viewHolder.iconView = (ImageView) convertView.findViewById(R.id.main_page_item_icon);
             viewHolder.titleView = (TextView) convertView.findViewById(R.id.main_page_item_title);

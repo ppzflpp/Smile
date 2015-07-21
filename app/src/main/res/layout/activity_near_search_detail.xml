@@ -9,9 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <fragment
-        android:id="@+id/poi_fragment"
-        android:name="com.dragon.smile.fragment.POIFragment"
+    <ListView
+        android:id="@+id/near_search_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/user_location" />

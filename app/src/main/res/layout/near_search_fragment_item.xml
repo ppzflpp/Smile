@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/service_item_bg"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <ImageView
+        android:id="@+id/near_search_fragment_item_icon"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
+        android:layout_marginTop="15dip"
+        android:background="@drawable/circle_shape" />
+
+    <TextView
+        android:id="@+id/near_search_fragment_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:layout_toRightOf="@id/near_search_fragment_item_icon"
+        android:textColor="@color/near_search_item_text_color_1"
+        android:textSize="@dimen/near_search_item_text_size_1" />
+
+    <TextView
+        android:id="@+id/near_search_fragment_item_exchange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/near_search_fragment_item_title"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:textColor="@color/near_search_item_text_color_2"
+        android:textSize="@dimen/near_search_item_text_size_2" />
+
+    <View
+        android:id="@+id/near_search_fragment_item_divider_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/near_search_fragment_item_title"
+        android:layout_toLeftOf="@id/near_search_fragment_item_icon"
+        android:background="@color/near_search_item_color_divider_1" />
+
+    <TextView
+        android:id="@+id/near_search_fragment_item_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/near_search_fragment_item_divider_1"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:layout_toRightOf="@id/near_search_fragment_item_icon"
+        android:textColor="@color/near_search_item_text_color_2"
+        android:textSize="@dimen/near_search_item_text_size_2" />
+
+    <View
+        android:id="@+id/near_search_fragment_item_divider_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/near_search_fragment_item_comment"
+        android:layout_toLeftOf="@id/near_search_fragment_item_icon"
+        android:background="@color/near_search_item_color_divider_2" />
+
+
+    <TextView
+        android:id="@+id/near_search_fragment_item_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/near_search_fragment_item_divider_2"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:layout_toLeftOf="@+id/near_search_fragment_item_distance"
+        android:layout_toRightOf="@id/near_search_fragment_item_icon"
+        android:textColor="@color/near_search_item_text_color_3"
+        android:textSize="@dimen/near_search_item_text_size_3" />
+
+    <TextView
+        android:id="@id/near_search_fragment_item_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/near_search_fragment_item_address"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:textColor="@color/near_search_item_text_color_3"
+        android:textSize="@dimen/near_search_item_text_size_3" />
+
+    <View
+        android:id="@+id/near_search_fragment_item_divider_3"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/near_search_fragment_item_address"
+        android:layout_marginTop="2dip"
+        android:background="@color/near_search_item_color_divider_3" />
+
+    <!-- 服务项目 动态生成 -->
+    <LinearLayout
+        android:id="@+id/near_search_fragment_item_services"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/near_search_fragment_item_divider_3"
+        android:orientation="vertical" />
+
+</RelativeLayout>

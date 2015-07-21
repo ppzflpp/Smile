@@ -1,8 +1,11 @@
 package com.dragon.smile;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,17 +38,43 @@ public class PayActivity extends ActionBarActivity {
     private TextView mServiceNameView;
     private TextView mServicePriceView;
     private TextView mServiceUserNameView;
-
+    private TextView mTitleView;
+    private TextView mRedPacketView;
     private PayItem mPayItem;
 
+    private int mPayMoney = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
+
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        View view = LayoutInflater.from(this).inflate(R.layout.title_bar, null);
+        mTitleView = (TextView) view.findViewById(R.id.action_bar_title_view);
+        mTitleView.setText(R.string.title_activity_pay);
+        view.findViewById(R.id.action_bar_title_view_back).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.action_bar_title_view_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+        lp.leftMargin = 0;
+        getSupportActionBar().setCustomView(view, lp);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.title_bg_color));
+        }
         BmobPay.init(this, SmileApplication.APP_ID);
         mBmobPay = new BmobPay(this);
         mPayItem = (PayItem) getIntent().getSerializableExtra("pay_item");
+
+        mPayMoney = Integer.parseInt(mPayItem.servicePrice) - ((SmileApplication) getApplication()).mLoginUser.redPacket.getRedPacketSize();
+        mPayMoney = +(mPayMoney < 0 ? 0 : mPayMoney);
         setupViews();
     }
 
@@ -85,8 +114,12 @@ public class PayActivity extends ActionBarActivity {
         if (mPayItem != null) {
             mServiceUserNameView.setText(mPayItem.userName);
             mServiceNameView.setText(mPayItem.serviceName);
-            mServicePriceView.setText(mPayItem.servicePrice);
+
+            mServicePriceView.setText("" + mPayMoney);
         }
+
+        mRedPacketView = (TextView) findViewById(R.id.pay_red_packet_2);
+        mRedPacketView.setText(((SmileApplication) getApplication()).mLoginUser.redPacket.getRedPacketSize() + getString(R.string.yuan));
     }
 
     private void pay(int payMethod) {
@@ -103,7 +136,7 @@ public class PayActivity extends ActionBarActivity {
 
     private double getPrice() {
         if (mPayItem != null)
-            return Double.parseDouble(mPayItem.servicePrice);
+            return mPayMoney;
         return 0;
     }
 
